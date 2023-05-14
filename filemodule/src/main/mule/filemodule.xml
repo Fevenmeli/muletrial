@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8eec50a1-afe4-46b3-ade4-4ba244ab867b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="61a3b031-5e6f-4942-a358-a663ae705adf" >
+		<file:connection workingDir="C:\Users\bmoreda\Desktop\Meli2" />
+	</file:config>
+	<flow name="filemoduleFlow" doc:id="4c9eb399-ad79-4fc7-82ff-292db747fe8e" >
+		<http:listener doc:name="Listener" doc:id="13ea74f3-62af-413a-a96f-f33e2a95e332" config-ref="HTTP_Listener_config" path="/read"/>
+		<file:read doc:name="Read" doc:id="9606eeee-a13e-449e-a4ad-e185fcba4b36" path="C:\Users\bmoreda\Desktop\Meli\Meli.txt"/>
+		<logger level="INFO" doc:name="Logger" doc:id="f20f73fa-182f-432a-bbc7-b7417f1e27f1" message="#[payload]"/>
+	</flow>
+	<flow name="filemoduleFlow1" doc:id="c7ea7462-b552-422f-9f82-a8e573407271" >
+		<http:listener doc:name="Listener" doc:id="67731d55-1ea3-4e49-9664-f69fa779b7e1" config-ref="HTTP_Listener_config" path="/copy"/>
+		<file:copy doc:name="Copy" doc:id="2a9e3472-9038-433e-8cbb-92b2e08815b4" sourcePath="C:\Users\bmoreda\Desktop\Meli" targetPath="C:\Users\bmoreda\Desktop\Meli2"/>
+		<logger level="INFO" doc:name="Logger" doc:id="66630b51-e51f-48f6-8cc6-bba4680821a8" message="#[payload]"/>
+	</flow>
+	<flow name="filemoduleFlow2" doc:id="bf44cb4a-7785-47ed-95b6-c8769a39f5f1" >
+		<http:listener doc:name="Listener" doc:id="6e1b90b4-a79f-4879-aa0c-4956eab8a64b" config-ref="HTTP_Listener_config" path="/move"/>
+		<file:move doc:name="Move" doc:id="1743764a-788d-4d1e-aea6-f3fa3f964afb" sourcePath="C:\Users\bmoreda\Desktop\Meli" targetPath="C:\Users\bmoreda\Desktop\Meli 3"/>
+	</flow>
+	<flow name="filemoduleFlow3" doc:id="bd081dcf-1d33-46d5-a49c-7720b7bb94f7" >
+		<http:listener doc:name="Listener" doc:id="3e02cd04-e4fe-4243-b651-bbc3bfe13f8c" config-ref="HTTP_Listener_config" path="/write"/>
+		<file:write doc:name="Write" doc:id="f22e48a1-9f99-47f0-ac8f-13128654bca6" path="C:\Users\bmoreda\Desktop\Meli2\Meli\Meli.txt">
+			<file:content ><![CDATA[Hi Meli Yene Konjo , I missed you so much please say hello to my little babay ....hewana or ayana or rebecca ]]></file:content>
+		</file:write>
+		<logger level="INFO" doc:name="Logger" doc:id="bee1a3f7-4dcf-4eba-ab3c-cd106fcad0ee" message="#[payload]"/>
+	</flow>
+	<flow name="filemoduleFlow4" doc:id="f91c8d8c-fc79-4668-a2ff-c52be45a8268" >
+		<file:listener doc:name="On New or Updated File" doc:id="525e5ba4-67a2-443e-90ba-50d90bcf729c" config-ref="File_Config" directory="Meli" autoDelete="true">
+			<scheduling-strategy >
+				<fixed-frequency frequency="1" timeUnit="SECONDS" />
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="94a49472-f172-48dc-90b0-407a1d15ed1a" message="#[payload]"/>
+	</flow>
+</mule>
