@@ -15,6 +15,7 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		<http:listener doc:name="Listener" doc:id="13ea74f3-62af-413a-a96f-f33e2a95e332" config-ref="HTTP_Listener_config" path="/read"/>
 		<file:read doc:name="Read" doc:id="9606eeee-a13e-449e-a4ad-e185fcba4b36" path="C:\Users\bmoreda\Desktop\Meli\Meli.txt"/>
 		<logger level="INFO" doc:name="Logger" doc:id="f20f73fa-182f-432a-bbc7-b7417f1e27f1" message="#[payload]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="ea77c9eb-16f0-4cec-aea3-4e1beb317571" message="this is test for git hub"/>
 	</flow>
 	<flow name="filemoduleFlow1" doc:id="c7ea7462-b552-422f-9f82-a8e573407271" >
 		<http:listener doc:name="Listener" doc:id="67731d55-1ea3-4e49-9664-f69fa779b7e1" config-ref="HTTP_Listener_config" path="/copy"/>
